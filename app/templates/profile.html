@@ -1,0 +1,46 @@
+
+{% extends 'base.html' %}
+
+{% block title %}My Profile | Cfooders{% endblock %}
+
+{% block content %}
+<section class="page-banner">
+    <div class="wrap">
+        <span class="eyebrow">YOUR ACCOUNT</span>
+        <h1>My Profile</h1>
+        <p>Manage your Cfooders account.</p>
+    </div>
+</section>
+
+<section class="section wrap narrow-wrap">
+    <div class="form-card">
+        <div class="auth-logo">👤</div>
+        <h2>Account Information</h2>
+
+        <div class="profile-row">
+            <span>Username</span>
+            <strong>{{ user.username }}</strong>
+        </div>
+
+        <div class="profile-row">
+            <span>Email</span>
+            <strong>{{ user.email|default:"Not provided" }}</strong>
+        </div>
+
+        <div class="profile-row">
+            <span>First Name</span>
+            <strong>{{ user.first_name|default:"Not provided" }}</strong>
+        </div>
+
+        <div class="profile-row">
+            <span>Last Name</span>
+            <strong>{{ user.last_name|default:"Not provided" }}</strong>
+        </div>
+
+        <a href="{% url 'my_orders' %}"
+           class="button button-primary full-width">
+            View My Orders
+        </a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,91 @@
+
+{% extends 'base.html' %}
+
+{% block title %}My Cart | CFooders{% endblock %}
+
+{% block content %}
+
+<section class="section">
+    <div class="page-heading">
+        <p class="eyebrow">YOUR SELECTION</p>
+        <h1>Shopping Cart 🛒</h1>
+    </div>
+
+    {% if cart_items %}
+        <div class="cart-layout">
+            <div class="cart-items">
+                {% for item in cart_items %}
+                    <article class="cart-item">
+                        {% if item.food.image %}
+                            <img src="{{ item.food.image.url }}" alt="{{ item.food.name }}">
+                        {% else %}
+                            <div class="cart-placeholder">🍲</div>
+                        {% endif %}
+
+                        <div class="cart-item-info">
+                            <h3>{{ item.food.name }}</h3>
+                            <p class="muted">{{ item.food.restaurant.rest_name }}</p>
+                            <p>₹{{ item.food.price }} each</p>
+
+                            <form action="{% url 'update_cart' item.food.id %}"
+                                  method="post" class="quantity-form">
+                                {% csrf_token %}
+                                <label for="quantity-{{ item.food.id }}">Qty:</label>
+                                <input
+                                    id="quantity-{{ item.food.id }}"
+                                    type="number"
+                                    name="quantity"
+                                    min="1"
+                                    max="99"
+                                    value="{{ item.quantity }}"
+                                    required
+                                >
+                                <button type="submit" class="btn btn-outline">Update</button>
+                            </form>
+
+                            <form action="{% url 'update_cart' item.food.id %}"
+                                  method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="quantity" value="0">
+                                <button type="submit" class="text-button">Remove</button>
+                            </form>
+                        </div>
+
+                        <strong>₹{{ item.item_total }}</strong>
+                    </article>
+                {% endfor %}
+            </div>
+
+            <aside class="order-summary">
+                <h2>Order Summary</h2>
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <strong>₹{{ grand_total }}</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery fee</span>
+                    <span>Calculated at checkout</span>
+                </div>
+                <hr>
+                <div class="summary-row total-row">
+                    <span>Total</span>
+                    <strong>₹{{ grand_total }}</strong>
+                </div>
+
+                <a href="{% url 'checkout' %}" class="btn btn-block">
+                    Proceed to Checkout
+                </a>
+                <a href="{% url 'menu' %}" class="continue-link">← Continue Shopping</a>
+            </aside>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">🛒</div>
+            <h2>Your cart is empty</h2>
+            <p>Add some delicious food to get started.</p>
+            <a href="{% url 'menu' %}" class="btn">Explore Menu</a>
+        </div>
+    {% endif %}
+</section>
+
+{% endblock %}

@@ -1,0 +1,85 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Home | CFooders{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero-content">
+        <p class="eyebrow">GOOD FOOD, GOOD MOOD</p>
+        <h1>Your favourite food,<br>delivered fresh.</h1>
+        <p>Discover delicious dishes from restaurants near you.</p>
+
+        <form action="{% url 'menu' %}" method="get" class="search-form">
+            <input type="search" name="q" placeholder="Search biryani, pizza, burger..." required>
+            <button type="submit" class="btn">Find Food</button>
+        </form>
+
+        <a href="{% url 'menu' %}" class="btn hero-btn">Explore Menu</a>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">DISCOVER PLACES</p>
+            <h2>Popular Restaurants</h2>
+        </div>
+        <a href="{% url 'menu' %}">View all →</a>
+    </div>
+
+    <div class="restaurant-grid">
+        {% for restaurant in restaurants %}
+            <a class="restaurant-card"
+               href="{% url 'menu' %}?restaurant={{ restaurant.id }}">
+                <div class="restaurant-icon">🍽️</div>
+                <h3>{{ restaurant.rest_name }}</h3>
+                <p>📍 {{ restaurant.location }}</p>
+            </a>
+        {% empty %}
+            <p>No restaurants available yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">HANDPICKED FOR YOU</p>
+            <h2>Popular Dishes</h2>
+        </div>
+        <a href="{% url 'menu' %}">View all →</a>
+    </div>
+
+    <div class="food-grid">
+        {% for food in foods %}
+            <article class="food-card">
+                {% if food.image %}
+                    <img src="{{ food.image.url }}" alt="{{ food.name }}" class="food-image">
+                {% else %}
+                    <div class="food-placeholder">🍲</div>
+                {% endif %}
+
+                <div class="food-info">
+                    <h3>{{ food.name }}</h3>
+                    <p class="muted">{{ food.restaurant.rest_name }}</p>
+                    <p class="food-description">{{ food.description|truncatewords:12 }}</p>
+
+                    <div class="food-bottom">
+                        <strong>₹{{ food.price }}</strong>
+
+                        <form action="{% url 'add_to_cart' food.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn">+ Add</button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+        {% empty %}
+            <p>No food items available yet. Add some through Django Admin.</p>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

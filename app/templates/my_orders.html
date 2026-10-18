@@ -1,0 +1,51 @@
+
+{% extends 'base.html' %}
+
+{% block title %}My Orders | CFooders{% endblock %}
+
+{% block content %}
+
+<section class="section">
+    <div class="page-heading">
+        <p class="eyebrow">YOUR FOOD JOURNEY</p>
+        <h1>My Orders 📦</h1>
+        <p>Track the status of your orders.</p>
+    </div>
+
+    {% if orders %}
+        <div class="orders-list">
+            {% for order in orders %}
+                <article class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <p class="muted">Order #{{ order.id }}</p>
+                            <h3>{{ order.food.name }}</h3>
+                        </div>
+
+                        <span class="status status-{{ order.status|slugify }}">
+                            {{ order.status }}
+                        </span>
+                    </div>
+
+                    <div class="order-details">
+                        <p><strong>Restaurant:</strong> {{ order.food.restaurant.rest_name }}</p>
+                        <p><strong>Quantity:</strong> {{ order.quantity }}</p>
+                        <p><strong>Total:</strong> ₹{{ order.total_price }}</p>
+                        <p><strong>Delivery address:</strong> {{ order.delivery_address }}</p>
+                        <p><strong>Phone:</strong> {{ order.phone }}</p>
+                        <p><strong>Ordered:</strong> {{ order.ordered_at|date:"d M Y, h:i A" }}</p>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">📦</div>
+            <h2>No orders yet</h2>
+            <p>Your placed orders will appear here.</p>
+            <a href="{% url 'menu' %}" class="btn">Order Food</a>
+        </div>
+    {% endif %}
+</section>
+
+{% endblock %}

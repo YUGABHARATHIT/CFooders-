@@ -1,0 +1,69 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Checkout | CFooders{% endblock %}
+
+{% block content %}
+
+<section class="section">
+    <div class="page-heading">
+        <p class="eyebrow">ALMOST THERE</p>
+        <h1>Checkout</h1>
+        <p>Enter your delivery details to place your order.</p>
+    </div>
+
+    <div class="checkout-layout">
+        <form method="post" class="checkout-form">
+            {% csrf_token %}
+
+            <h2>Delivery Information</h2>
+
+            <div class="form-group">
+                <label for="delivery_address">Delivery Address</label>
+                <textarea
+                    id="delivery_address"
+                    name="delivery_address"
+                    rows="4"
+                    placeholder="Enter your house number, street and area"
+                    required
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    maxlength="15"
+                    placeholder="Enter your contact number"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="btn btn-block">
+                Place Order · ₹{{ grand_total }}
+            </button>
+        </form>
+
+        <aside class="order-summary">
+            <h2>Your Order</h2>
+
+            {% for item in cart_items %}
+                <div class="summary-row">
+                    <span>{{ item.food.name }} × {{ item.quantity }}</span>
+                    <strong>₹{{ item.item_total }}</strong>
+                </div>
+            {% endfor %}
+
+            <hr>
+            <div class="summary-row total-row">
+                <span>Total</span>
+                <strong>₹{{ grand_total }}</strong>
+            </div>
+            <p class="muted">Payment is not integrated yet. This form places an order in the database.</p>
+        </aside>
+    </div>
+</section>
+
+{% endblock %}

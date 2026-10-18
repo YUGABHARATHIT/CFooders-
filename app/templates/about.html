@@ -1,0 +1,47 @@
+
+{% extends 'base.html' %}
+
+{% block title %}About Us | Cfooders{% endblock %}
+
+{% block content %}
+<section class="page-banner">
+    <div class="wrap">
+        <span class="eyebrow">OUR STORY</span>
+        <h1>About Cfooders</h1>
+        <p>Good food, good mood, delivered with care.</p>
+    </div>
+</section>
+
+<section class="section wrap about-layout">
+    <div class="about-art">
+        <span>🍔</span>
+    </div>
+
+    <div>
+        <span class="eyebrow">WHO WE ARE</span>
+        <h2>Making Food Ordering Easy</h2>
+
+        <p>
+            Welcome to Cfooders, your online food delivery platform.
+            We make it easy to discover delicious meals and order your
+            favourite dishes from one convenient place.
+        </p>
+
+        <p>
+            Whether you are craving a burger, pizza, noodles or a healthy
+            meal, Cfooders helps make your food ordering experience simple
+            and enjoyable.
+        </p>
+
+        <h3>Our Mission</h3>
+        <p>
+            To provide a convenient, user-friendly food ordering experience
+            with a focus on delicious choices and customer satisfaction.
+        </p>
+
+        <a href="{% url 'menu' %}" class="button button-primary">
+            Explore Menu
+        </a>
+    </div>
+</section>
+{% endblock %}
