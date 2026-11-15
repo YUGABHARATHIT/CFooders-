@@ -1,3 +1,4 @@
+
 # Python
 __pycache__/
 *.py[cod]
@@ -9,9 +10,17 @@ venv/
 # Environment variables
 .env
 .env.*
+!.env.example
+
+# Media uploads
+media/
+
+# Static collected files
+staticfiles/
 
 # Editor
-.vscode/.Cursor
+.vscode/
+.idea/
 
 # Local database
 db.sqlite3
